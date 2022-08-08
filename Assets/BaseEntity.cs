@@ -1,4 +1,6 @@
 ﻿using Assets.ai;
+using Assets.extensions;
+using Assets.state;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,30 +9,32 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class BaseEntity : BehaviorTree
+public abstract class BaseEntity<T> : BehaviorTree<T> where T:BaseEntityState
 {
-    public bool isMoving;
-    bool facingLeft;
-    public float moveSpeed;
-    public Vector2 moveVal;
-    Animator animator;
+    public T State;
+    protected Animator _animator;
     SpriteRenderer spriteRenderer;
+    const string IgnoreCollisionTag = "_Ignore";
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        var blockersToIgnore = GameObject.FindGameObjectsWithTag($"{gameObject.tag}{IgnoreCollisionTag}");
+        foreach(var obj in blockersToIgnore)
+            Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+
+
         base.Start();
     }
 
     // Update is called once per frame
     protected override void Update()
     {
-        if(Root != null)
-            Root.SetData("moveVal", moveVal);
         base.Update();
-        transform.Translate(new Vector3(moveVal.x, moveVal.y, 0) * moveSpeed * Time.deltaTime);
+        transform.Translate(State.MoveVal.ToVector3() * State.CurrentSpeed * Time.deltaTime);
     }
 
     protected virtual void PrepareForUpdate()
@@ -40,16 +44,20 @@ public abstract class BaseEntity : BehaviorTree
 
     protected virtual void HandleMovement(Vector2? movement)
     {
-        moveVal = movement ?? Vector2.zero;
-        isMoving = !moveVal.Equals(Vector2.zero);
-        animator.SetBool("isMoving", isMoving);
-        bool nowFacingLeft = moveVal.x < 0;
-        if (moveVal.x != 0 && facingLeft != nowFacingLeft)
+        State.MoveVal = movement ?? Vector2.zero;
+        State.IsMoving = !State.MoveVal.Equals(Vector2.zero);
+        _animator.SetBool("isMoving", State.IsMoving);
+        bool nowFacingLeft = State.MoveVal.x < 0;
+        if (State.MoveVal.x != 0 && State.FacingLeft != nowFacingLeft)
         {
             spriteRenderer.flipX = nowFacingLeft;
-            facingLeft = nowFacingLeft;
+            State.FacingLeft = nowFacingLeft;
         }
     }
 
+    protected virtual void OnCollisionEnter2D(Collision2D col)
+    {
+        State.ActiveCollision = col;
+    }
 
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.extensions;
+using Assets.state;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,60 +10,42 @@ using Random = UnityEngine.Random;
 
 namespace Assets.ai.hecksquirrel
 {
-    public class Wander : MovementTypeTreeNodeBase
+    public class Wander : BehaviorTreeNode<HeckSquirrelState>
     {
-        bool _paused;
-        float _pausedFor;
-        float _pauseTime;
 
-        public Wander(Transform transform, float pauseTime, BaseEntity owner) : base(transform, owner)
-        {
-            _pauseTime = pauseTime;
-        }
+        public Wander(Transform transform, HeckSquirrelState state) : base(transform, state) { }
 
         public override eNodeState Evaluate()
-        {
-            if(_paused)
-            {
-                _pausedFor += Time.deltaTime;
-
-                if(_pausedFor >= _pauseTime)
-                {
-                    _paused = false;
-                }
-
-                _owner.moveVal = Vector2.zero;
-                State = eNodeState.RUNNING;
-            }
-            else
-            {
-                State = base.Evaluate();
-            }
-            
-            return State;
-        }
-
-        protected override Vector2 GetNextMovementTarget()
         {
             var target = _transform.position.ToVector2();
 
             var dieRoll = (int)(Random.value * 100);
-            if (dieRoll <= 45)
+            if (!_state.MoveVal.Equals(Vector2.zero) && dieRoll <= 75)
             {
-                _paused = true;
-                _pausedFor = 0;
-            }
-            else if (dieRoll <= 95)
-            {
-                var rotated = Quaternion.Euler(0, 0, Random.Range(-30, 30)) * (_owner.moveVal * 2);
-                target = (MovementTarget ?? target) + rotated.ToVector2();
+                Debug.Log("finding rotated wander target");
+                var rotated = Quaternion.Euler(0, 0, Random.Range(-30, 30)) * (_state.MoveVal * 2);
+                target = (_state.MovementTarget ?? target) + rotated.ToVector2();
             }
             else
             {
+                Debug.Log("finding random wander target");
                 target = target + (Random.onUnitSphere.ToVector2() * 2); ;
             }
 
-            return target;
+            dieRoll = (int)(Random.value * 100);
+            if(_state.SafeInPen && dieRoll < 85)
+            {
+                if(!_state.Pen.GetComponent<Collider2D>().OverlapPoint(target))
+                    target = _transform.position.ToVector2();
+            }
+
+
+            _state.DebugTarget.transform.position = target;
+            _state.LastRetargetTime = Time.time;
+
+            _state.MovementTarget = target;
+            RunState = eNodeState.SUCCESS;
+            return RunState;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.state;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace Assets.ai
 {
-    public class SelectorNode : BehaviorTreeNode
+    public class SelectorNode<T> : BehaviorTreeNode<T> where T : BaseEntityState
     {
+        public SelectorNode(T state) : base(null, state) { }
+
+        public SelectorNode(T state, params BehaviorTreeNode<T>[] children) : base(null, state, children) { }
         public override eNodeState Evaluate()
         {
-            foreach (var child in children)
+            foreach (var child in _children)
             {
                 var result = child.Evaluate();
 
@@ -18,13 +22,13 @@ namespace Assets.ai
                     continue;
                 else
                 {
-                    State = result;
-                    return State;
+                    RunState = result;
+                    return RunState;
                 }
             }
 
-            State = eNodeState.FAILURE;
-            return State;
+            RunState = eNodeState.FAILURE;
+            return RunState;
         }
     }
 }

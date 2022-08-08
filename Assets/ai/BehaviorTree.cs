@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.state;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,9 @@ using UnityEngine;
 
 namespace Assets.ai
 {
-    public abstract class BehaviorTree : MonoBehaviour
+    public abstract class BehaviorTree<T> : MonoBehaviour where T : BaseEntityState
     {
-        public BehaviorTreeNode Root { get; private set; }
+        public BehaviorTreeNode<T> Root { get; private set; }
 
         protected virtual void Start()
         {
@@ -22,6 +23,6 @@ namespace Assets.ai
                 Root.Evaluate();
         }
 
-        protected abstract BehaviorTreeNode SetupTree();
+        protected abstract BehaviorTreeNode<T> SetupTree();
     }
 }

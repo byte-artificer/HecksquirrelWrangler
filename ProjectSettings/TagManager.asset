@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Walls
+  - debug_target
+  - Player_blocker
+  - Enemy_Ignore
+  - Enemy
   layers:
   - Default
   - TransparentFX

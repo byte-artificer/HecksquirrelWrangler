@@ -1,45 +1,42 @@
-﻿using System;
+﻿using Assets.state;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.ai
 {
     public enum eNodeState { RUNNING, SUCCESS, FAILURE }
-    public class BehaviorTreeNode
+    public class BehaviorTreeNode<T> where T : BaseEntityState
     {
-        protected eNodeState State;
-        public BehaviorTreeNode Parent;
-        protected List<BehaviorTreeNode> children = new List<BehaviorTreeNode>();
-        Dictionary<string, object> _context = new Dictionary<string, object>();
+        protected eNodeState RunState;
+        public BehaviorTreeNode<T> Parent;
+        protected List<BehaviorTreeNode<T>> _children = new List<BehaviorTreeNode<T>>();
 
-        public BehaviorTreeNode() { Parent = null; }
-        public BehaviorTreeNode(List<BehaviorTreeNode> children) { foreach (var c in children) Add(c); }
+        protected readonly T _state;
+        protected readonly Transform _transform;
+
+        public BehaviorTreeNode(Transform transform, T state) 
+        { 
+            Parent = null;
+            _transform = transform;
+            _state = state;
+        }
+
+        public BehaviorTreeNode(Transform transform, T state, params BehaviorTreeNode<T>[] children) : this(transform, state)
+        { 
+            foreach (var c in children) 
+                Add(c); 
+        }
 
         public virtual eNodeState Evaluate() => eNodeState.FAILURE;
 
-        public void Add(BehaviorTreeNode child)
+        public void Add(BehaviorTreeNode<T> child)
         {
             child.Parent = this;
-            children.Add(child);
-        }
-
-        public void SetData(string key, object value)
-        {
-            _context[key] = value;
-        }
-
-        public object GetData(string key)
-        {
-            object val = _context.GetValueOrDefault(key, Parent?.GetData(key));
-            return val;
-        }
-
-        public bool ClearData(string key)
-        {
-            var removed = Parent?.ClearData(key) ?? false;
-            return removed || _context.Remove(key);
+            _children.Add(child);
         }
     }
 }

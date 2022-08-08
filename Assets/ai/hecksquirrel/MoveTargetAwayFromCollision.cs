@@ -1,4 +1,5 @@
 ﻿using Assets.extensions;
+using Assets.state;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,40 +9,37 @@ using UnityEngine;
 
 namespace Assets.ai.hecksquirrel
 {
-    public class MoveTargetAwayFromCollision : BehaviorTreeNode
+    public class MoveTargetAwayFromCollision : BehaviorTreeNode<HeckSquirrelState>
     {
-        public static string moveAwayTarget = "moveAwayTarget";
-        Transform _transform;
-        float _targetDistance;
-        public MoveTargetAwayFromCollision(Transform transform, float targetDistance)
-        {
-            _transform = transform;
-            _targetDistance = targetDistance;
-        }
-
+        public MoveTargetAwayFromCollision(Transform transform, HeckSquirrelState state) : base(transform, state) { }
         public override eNodeState Evaluate()
         {
-            var collision = GetData("collision") as Collision2D;
-            var moveVal = (Vector2)GetData("moveVal");
+            var collision = _state.ActiveCollision;
+            var moveVal = _state.MoveVal;
 
             if (collision != null)
             {
+                Debug.Log("moving away from collision");
+
                 var collisionNormal = collision.GetContact(0).normal;
 
                 var movement = Vector2.Reflect(moveVal, collisionNormal); 
 
-                //var movement = moveVal + collisionNormal;
                 movement = movement.normalized;
                 if (movement.Equals(Vector2.zero))
                     movement = Quaternion.Euler(0, 0, 45) * moveVal;
 
-                var target = _transform.position + movement.ToVector3();
+                var target = _transform.position + (movement.ToVector3() * 2);
 
-                Parent.SetData(moveAwayTarget, target);
-                ClearData("collision");
+                _state.DebugTarget.transform.position = target;
+                _state.LastRetargetTime = Time.time;
+
+                _state.MovementTarget = target.ToVector2();
+                _state.ActiveCollision = null; //Collision handled
             }
 
-            return eNodeState.SUCCESS;
+            RunState = eNodeState.SUCCESS;
+            return RunState;
         }
     }
 }
