@@ -187,18 +187,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 5366316926419869509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e2962a00c75fae468527625679b3a03, type: 3}
+  m_Script: {fileID: 11500000, guid: 588eccc2d73c9a24781119b5b0abc688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   State:
     IsMoving: 0
     IsStuck: 0
     FacingLeft: 0
-    CurrentSpeed: 1
-    BaseSpeed: 1
+    CurrentSpeed: 0
+    BaseSpeed: 0
     MoveVal: {x: 0, y: 0}
-  HeckSquirrelStates: {fileID: 11400000, guid: 47e767b3e9705364a9a3c4e7c89802d3, type: 2}
-  PlayerStamina: {fileID: 11400000, guid: 5d61eb980c3307440a8736ccc2b5174d, type: 2}
+    MaxStamina: 5
+    Stamina: 5
+    Sprinting: 0
+    SprintHeld: 0
+    PlayerStamina: {fileID: 0}
+    HeckSquirrelStates: {fileID: 0}
+    WinLevel: 0
+  GamePaused: {fileID: 0}
+  HeckSquirrelStates: {fileID: 0}
+  PlayerStamina: {fileID: 0}
 --- !u!50 &5366316926419869630
 Rigidbody2D:
   serializedVersion: 4

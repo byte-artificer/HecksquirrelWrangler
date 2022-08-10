@@ -16,16 +16,21 @@ public abstract class BaseEntity<T> : BehaviorTree<T> where T:BaseEntityState
     SpriteRenderer spriteRenderer;
     const string IgnoreCollisionTag = "_Ignore";
 
+    public BoolValue GamePaused;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         _animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        var blockersToIgnore = GameObject.FindGameObjectsWithTag($"{gameObject.tag}{IgnoreCollisionTag}");
-        foreach(var obj in blockersToIgnore)
-            Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-
+        try
+        {
+            var blockersToIgnore = GameObject.FindGameObjectsWithTag($"{gameObject.tag}{IgnoreCollisionTag}");
+            foreach (var obj in blockersToIgnore)
+                Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
+        catch { /* eat the exception, because Unity doesn't give me a real way to check if a tag exists as far as google can tell me... */ }
 
         base.Start();
     }
@@ -41,6 +46,13 @@ public abstract class BaseEntity<T> : BehaviorTree<T> where T:BaseEntityState
     {
 
     }
+
+    protected sealed override BehaviorTreeNode<T> SetupTree()
+    {
+        return new SelectorNode<T>(State, new PausedNode<T>(transform, State, GamePaused), SetupTreeCore());
+    }
+
+    protected abstract BehaviorTreeNode<T> SetupTreeCore();
 
     protected virtual void HandleMovement(Vector2? movement)
     {

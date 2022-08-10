@@ -8,6 +8,7 @@ public class MainMenuController : MonoBehaviour
 {
     public GameObject LeftSprite;
     public GameObject RightSprite;
+    public BoolValue GamePaused;
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

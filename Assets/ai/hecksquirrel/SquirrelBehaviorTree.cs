@@ -22,7 +22,7 @@ namespace Assets.ai.hecksquirrel
             heckSquirrelStates.Add(State);
         }
 
-        protected override BehaviorTreeNode<HeckSquirrelState> SetupTree()
+        protected override BehaviorTreeNode<HeckSquirrelState> SetupTreeCore()
         {
             var root =
                 new SequenceNode<HeckSquirrelState>(State,
