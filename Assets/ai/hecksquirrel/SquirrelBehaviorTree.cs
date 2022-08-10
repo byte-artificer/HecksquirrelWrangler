@@ -12,6 +12,7 @@ namespace Assets.ai.hecksquirrel
     {
         public GameObject squirreltarget;
         public EnemyStateCollection heckSquirrelStates;
+        public BoolValue PlayerWin;
 
         protected override void Start()
         {
@@ -19,6 +20,7 @@ namespace Assets.ai.hecksquirrel
             State.Player = GameObject.FindGameObjectsWithTag("Player").First();
             State.DebugTarget = Instantiate(squirreltarget);
             State.Pen = GameObject.FindGameObjectsWithTag("Finish").First();
+            State.PlayerWin = PlayerWin;
             heckSquirrelStates.Add(State);
         }
 

@@ -17,9 +17,6 @@ namespace Assets.player
         {
             if (_state.HeckSquirrelStates.All(x => x.SafeInPen))
             {
-                foreach (var s in _state.HeckSquirrelStates)
-                    s.SquirrelsLose = true;
-
                 _state.MovementInput = null;
 
                 _state.WinLevel = true;

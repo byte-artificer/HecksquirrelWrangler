@@ -20,7 +20,7 @@ namespace Assets.ai.hecksquirrel
 
         public override eNodeState Evaluate()
         {
-            if(_state.SquirrelsLose)
+            if(_state.PlayerWin)
             {
                 _state.MoveVal = Vector2.zero;
                 _state.MovementTarget = _transform.position;

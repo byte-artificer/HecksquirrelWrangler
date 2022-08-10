@@ -14,7 +14,7 @@ namespace Assets.player
     {
         public EnemyStateCollection HeckSquirrelStates;
         public FloatValue PlayerStamina;
-        bool win;
+        public BoolValue GameWin;
 
         protected override void Start()
         {
@@ -30,7 +30,7 @@ namespace Assets.player
             if (State.WinLevel)
             {
                 _animator.SetBool("win", true);
-                win = true;
+                GameWin.Value = true;
 
                 PlayerStamina.Value = 1;
 
@@ -63,7 +63,7 @@ namespace Assets.player
 
         void OnMove(InputValue value)
         {
-            if (win)
+            if (GameWin.Value)
                 return;
 
             State.MovementInput = value?.Get<Vector2>();
@@ -71,7 +71,7 @@ namespace Assets.player
 
         void OnSprint(InputValue value)
         {
-            if (win)
+            if (GameWin.Value)
                 return;
 
             State.SprintHeld = value.isPressed;

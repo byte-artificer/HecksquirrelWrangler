@@ -10,13 +10,17 @@ namespace Assets.state
     [System.Serializable]
     public class HeckSquirrelState : BaseEntityState
     {
+        [HideInInspector]
         public GameObject Player;
+        [HideInInspector]
         public GameObject DebugTarget;
+        [HideInInspector]
         public GameObject Pen;
         public bool IsFleeing;
         public bool IsPaused;
         public bool SafeInPen;
-        public bool SquirrelsLose;
+        [HideInInspector]
+        public BoolValue PlayerWin;
         public float LastRetargetTime = float.MaxValue;
     }
 }
