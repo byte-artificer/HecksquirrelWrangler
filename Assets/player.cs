@@ -10,7 +10,7 @@ public class player : BaseEntity<BaseEntityState>
 {
     bool win;
     public EnemyStateCollection HeckSquirrelStates;
-    public FloatVal PlayerStamina;
+    public FloatValue PlayerStamina;
 
     float _maxStamina = 5f;
     float _stamina = 5f;
@@ -35,7 +35,7 @@ public class player : BaseEntity<BaseEntityState>
         if (_stamina == 0)
             ToggleSprint(false);
 
-        PlayerStamina.Val = _stamina / _maxStamina;
+        PlayerStamina.Value = _stamina / _maxStamina;
 
         if (HeckSquirrelStates.All(x => x.SafeInPen))
         {
@@ -44,7 +44,7 @@ public class player : BaseEntity<BaseEntityState>
             foreach (var s in HeckSquirrelStates)
                 s.SquirrelsLose = true;
 
-            PlayerStamina.Val = 1;
+            PlayerStamina.Value = 1;
 
             base.HandleMovement(Vector2.zero);
         }
@@ -65,7 +65,7 @@ public class player : BaseEntity<BaseEntityState>
 
         _sprintHeld = value.isPressed;
 
-        var sprint = value.isPressed && PlayerStamina.Val > 0.15f;
+        var sprint = value.isPressed && PlayerStamina.Value > 0.15f;
 
         ToggleSprint(sprint);
     }

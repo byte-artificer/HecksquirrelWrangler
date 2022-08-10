@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class StaminaBar : MonoBehaviour
 {
-    public FloatVal playerStamina;
+    public FloatValue playerStamina;
     Slider _slider;
     Canvas _canvas;
 
@@ -23,18 +23,18 @@ public class StaminaBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _slider.value = playerStamina.Val;
+        _slider.value = playerStamina.Value;
 
-        if(playerStamina.Val == 1 && !_barFilled)
+        if(playerStamina.Value == 1 && !_barFilled)
         {
             _barFilled = true;
             _barFilledTime = Time.time;
         }
-        else if(_canvas.enabled && playerStamina.Val == 1 && (Time.time - _barFilledTime) > 0.5f)
+        else if(_canvas.enabled && playerStamina.Value == 1 && (Time.time - _barFilledTime) > 0.5f)
         {
             _canvas.enabled = false;
         }
-        else if(playerStamina.Val < 1)
+        else if(playerStamina.Value < 1)
         {
             _barFilled = false;
             _canvas.enabled = true;
