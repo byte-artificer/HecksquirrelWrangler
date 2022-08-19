@@ -21,6 +21,7 @@ public abstract class BaseEntity<T> : BehaviorTree<T> where T:BaseEntityState
     // Start is called before the first frame update
     protected override void Start()
     {
+        State.Reset();
         _animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 

@@ -17,7 +17,8 @@ namespace Assets.ai.hecksquirrel
         public override eNodeState Evaluate()
         {
             var pos = _transform.position.ToVector2();
-            _state.SafeInPen = _state.Pen.GetComponent<TilemapCollider2D>().OverlapPoint(pos);
+            if(!_state.SafeInPen)
+                _state.SafeInPen = _state.Pen.GetComponent<Collider2D>().OverlapPoint(pos);
 
             if (_state.SafeInPen)
             {

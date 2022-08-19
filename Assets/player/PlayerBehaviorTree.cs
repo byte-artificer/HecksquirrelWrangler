@@ -76,5 +76,16 @@ namespace Assets.player
 
             State.SprintHeld = value.isPressed;
         }
+
+        void OnDebug(InputValue value)
+        {
+            foreach (var s in HeckSquirrelStates)
+                s.DebugTarget.SetActive(!s.DebugTarget.activeSelf);
+        }
+        
+        void OnWarpFirstSquirrel(InputValue value)
+        {
+            HeckSquirrelStates.First().SafeInPen = true;
+        }
     }
 }

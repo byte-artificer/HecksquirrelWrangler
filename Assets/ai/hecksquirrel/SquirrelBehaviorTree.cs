@@ -19,6 +19,7 @@ namespace Assets.ai.hecksquirrel
             base.Start();
             State.Player = GameObject.FindGameObjectsWithTag("Player").First();
             State.DebugTarget = Instantiate(squirreltarget);
+            State.DebugTarget.SetActive(false);
             State.Pen = GameObject.FindGameObjectsWithTag("Finish").First();
             State.PlayerWin = PlayerWin;
             heckSquirrelStates.Add(State);
@@ -50,6 +51,23 @@ namespace Assets.ai.hecksquirrel
                 );
 
             return root;
+        }
+
+        bool _warping = false;
+        protected override void Update()
+        {
+            base.Update();
+            if(State.SafeInPen && !State.WarpedOut && !_warping)
+            {
+                _warping = true;
+                _animator.SetBool("warpOut", true);
+            }
+        }
+
+        public void WarpOutDone()
+        {
+            State.WarpedOut = true;
+            gameObject.SetActive(false);
         }
 
         private void OnTriggerStay2D(Collider2D collision)

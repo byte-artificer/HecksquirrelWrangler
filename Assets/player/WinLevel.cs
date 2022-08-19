@@ -15,7 +15,7 @@ namespace Assets.player
 
         public override eNodeState Evaluate()
         {
-            if (_state.HeckSquirrelStates.All(x => x.SafeInPen))
+            if (_state.HeckSquirrelStates.All(x => x.WarpedOut))
             {
                 _state.MovementInput = null;
 

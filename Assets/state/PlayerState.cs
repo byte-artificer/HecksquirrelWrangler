@@ -12,13 +12,28 @@ namespace Assets.state
     {
         public float MaxStamina = 5f;
         public float Stamina = 5f;
+        [HideInInspector]
         public bool  Sprinting = false;
+        [HideInInspector]
         public bool  SprintHeld = false;
         [HideInInspector]
         public FloatValue PlayerStamina;
         [HideInInspector]
         public EnemyStateCollection HeckSquirrelStates;
         public Vector2? MovementInput;
+        [HideInInspector]
         public bool WinLevel = false;
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            Stamina = MaxStamina;
+            Sprinting = false;
+            SprintHeld = false;
+            HeckSquirrelStates = new EnemyStateCollection();
+            MovementInput = null;
+            WinLevel = false;
+        }
     }
 }

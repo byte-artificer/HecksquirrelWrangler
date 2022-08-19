@@ -188,8 +188,10 @@ MonoBehaviour:
     IsFleeing: 0
     IsPaused: 0
     SafeInPen: 0
-    SquirrelsLose: 0
+    WarpedOut: 0
+    PlayerWin: {fileID: 0}
     LastRetargetTime: 0
   GamePaused: {fileID: 11400000, guid: 802f086a7cbf33042a492a864bbea36b, type: 2}
   squirreltarget: {fileID: 4593321257872818685, guid: 880e8b30b75f49e4aa1e071f11809eeb, type: 3}
   heckSquirrelStates: {fileID: 11400000, guid: 47e767b3e9705364a9a3c4e7c89802d3, type: 2}
+  PlayerWin: {fileID: 11400000, guid: aabc7adf919d937489d989b2210c0bcd, type: 2}

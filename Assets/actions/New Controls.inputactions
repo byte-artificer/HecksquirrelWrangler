@@ -31,6 +31,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "debug",
+                    "type": "Button",
+                    "id": "0f1df104-b683-4679-acfa-c6c70ea14112",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "warpFirstSquirrel",
+                    "type": "Button",
+                    "id": "b7a65909-a2bf-4148-bd5e-b22727714ac9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -108,6 +126,28 @@
                     "processors": "",
                     "groups": "keyboard",
                     "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f7d1512-bd81-4f89-bdcd-0222445410f0",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "debug",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a6a5883-7b14-48bb-9335-df09216c508b",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "warpFirstSquirrel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -701,6 +741,34 @@
                     "name": "",
                     "id": "d07f93b1-6bca-4cf5-981c-6ac53c077edd",
                     "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Resume",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "AnyKey",
+            "id": "e3904bbc-459b-423f-94a6-a4156dc78bf8",
+            "actions": [
+                {
+                    "name": "Resume",
+                    "type": "Button",
+                    "id": "f8ec3aaf-b44d-447e-a292-18de17768b24",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "21d58c8d-80d9-4b87-b91f-d13a5142cd6f",
+                    "path": "<Keyboard>/anyKey",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
