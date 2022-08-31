@@ -22,6 +22,8 @@ namespace Assets.state
         [HideInInspector]
         public Collision2D ActiveCollision;
         public Vector2? MovementTarget;
+        [HideInInspector]
+        public AudioClip RequestPlayAudioClip;
 
         public virtual void Reset()
         {

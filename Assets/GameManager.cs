@@ -16,7 +16,21 @@ public class GameManager : MonoBehaviour
     public GameObject GameWinCanvas;
     public GameObject IntroHelpCanvas;
     public GameObject NextLevelCanvas;
+    public AudioSource MusicSource;
+    public AudioSource SFXSource;
+    public AudioClip MusicNormal;
+    public AudioClip MusicRunningOutOfTime;
+    public AudioClip MusicOutOfTimeTransition;
+    public AudioClip MusicPause;
+    public AudioClip MusicWin;
+    public AudioClip MusicLose;
+    public AudioClip PauseSFX;
+    public AudioClip WinSFX;
+    public AudioClip LoseSFX;
+    public AudioRequester AudioRequester;
+
     public EnemyStateCollection HeckSquirrelStates;
+    public PlayerState PlayerState;
     public BoolValue GamePaused;
     public BoolValue GameWin;
     public PlayerInput Input;
@@ -29,9 +43,12 @@ public class GameManager : MonoBehaviour
     const string AnyKey = "AnyKey";
     bool _gameOver;
     bool _gameWin;
+    bool _playedLowTimeJingle;
     TextMeshProUGUI _timer;
 
     GameObject _pauseOverlay;
+    AudioClip _pauseMusic;
+    AudioClip _pauseSFX;
     public void Start()
     {
         PauseMenuCanvas.SetActive(false);
@@ -40,6 +57,7 @@ public class GameManager : MonoBehaviour
         _timeLeft = _nextLevel?.LevelTimer ?? LevelTimeInSeconds;
         _gameOver = false;
         _gameWin = false;
+        _playedLowTimeJingle = false;
         _timer = Timer.GetComponent<TextMeshProUGUI>();
 
         if (_nextLevel == null)
@@ -47,11 +65,14 @@ public class GameManager : MonoBehaviour
             IntroHelpCanvas.SetActive(true);
             Input.SwitchCurrentActionMap(AnyKey);
             _pauseOverlay = IntroHelpCanvas;
+            MusicSource.PlayOneShot(MusicWin);
             GamePaused.Value = true;
             Time.timeScale = 0;
         }
         else
         {
+            MusicSource.Stop();
+            MusicSource.PlayOneShot(MusicNormal);
 
             Input.SwitchCurrentActionMap(Gameplay);
             GamePaused.Value = false;
@@ -75,11 +96,15 @@ public class GameManager : MonoBehaviour
         if (_gameWin)
             return;
 
-        if (GameWin.Value)
+        PlaySounds();
+
+        if (GameWin.Value && !GamePaused.Value)
         {
             _gameWin = true;
             GamePaused.Value = true;
             _pauseOverlay = NextLevelCanvas;
+            _pauseMusic = MusicWin;
+            _pauseSFX = WinSFX;
             TogglePause(true);
         }
         else
@@ -91,12 +116,41 @@ public class GameManager : MonoBehaviour
                 GamePaused.Value = true;
                 _nextLevel = null;
                 _pauseOverlay = GameOverCanvas;
+                _pauseMusic = MusicLose;
+                _pauseSFX = LoseSFX;
                 TogglePause(true);
+            }
+            if(_timeLeft < 30f && !_playedLowTimeJingle)
+            {
+                _playedLowTimeJingle = true;
+                MusicSource.Stop();
+                MusicSource.loop = false;
+                MusicSource.PlayOneShot(MusicOutOfTimeTransition);
+                StartCoroutine(waitForSound(MusicSource, () =>
+                {
+                    MusicSource.loop = true;
+                    MusicSource.PlayOneShot(MusicRunningOutOfTime);
+                }));
             }
         }
 
         _timer.text = FormatTime(_timeLeft);
 
+    }
+
+    void PlaySounds()
+    {
+        int count = 0;
+        while (count < 10 && !AudioRequester.RequestedAudioClips.IsEmpty)
+        {
+            if (AudioRequester.RequestedAudioClips.TryDequeue(out AudioClip requested))
+            {
+                SFXSource.PlayOneShot(requested);
+                count++;
+            }
+            else
+                break;
+        }
     }
 
     string FormatTime(float time)
@@ -110,6 +164,7 @@ public class GameManager : MonoBehaviour
         if (!GamePaused.Value)
         {
             _pauseOverlay = PauseMenuCanvas;
+            _pauseSFX = PauseSFX;
             TogglePause(true);
         }
     }
@@ -123,7 +178,9 @@ public class GameManager : MonoBehaviour
 
         if (!_gameOver && !GameWin.Value && GamePaused.Value)
         {
+            _pauseSFX = PauseSFX;
             TogglePause(false);
+            MusicSource.PlayOneShot(_timeLeft < 30f ? MusicRunningOutOfTime : MusicNormal);
         }
     }
 
@@ -140,8 +197,18 @@ public class GameManager : MonoBehaviour
     {
         GamePaused.Value = pause;
         _pauseOverlay.SetActive(pause);
-        Input.SwitchCurrentActionMap(pause ? (_gameWin ? AnyKey : Pause) : Gameplay);
+        MusicSource.Stop();
         Time.timeScale = pause ? 0 : 1;
+        if(!(_pauseSFX == null))
+            SFXSource.PlayOneShot(_pauseSFX);
+        _pauseSFX = null;
+        Input.SwitchCurrentActionMap(pause ? (_gameWin ? AnyKey : Pause) : Gameplay);
+        if (pause)
+        {
+            MusicSource.PlayOneShot(_pauseMusic ?? MusicPause);
+        }
+        else
+            _pauseMusic = null;
     }
 
     void GenerateNextLevel()
@@ -161,7 +228,16 @@ public class GameManager : MonoBehaviour
         };
 
         HeckSquirrelStates.Clear();
+        AudioRequester.RequestedAudioClips.Clear();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    IEnumerator waitForSound(AudioSource source, Action callback)
+    {
+        while (source.isPlaying)
+            yield return null;
+
+        callback();
     }
 }
