@@ -13,6 +13,8 @@ namespace Assets.ai.hecksquirrel
         public GameObject squirreltarget;
         public EnemyStateCollection heckSquirrelStates;
         public BoolValue PlayerWin;
+        public AudioClip[] ScaredSounds;
+        public AudioClip WarpOut;
 
         protected override void Start()
         {
@@ -22,6 +24,8 @@ namespace Assets.ai.hecksquirrel
             State.DebugTarget.SetActive(false);
             State.Pen = GameObject.FindGameObjectsWithTag("Finish").First();
             State.PlayerWin = PlayerWin;
+            State.ScaredSounds = ScaredSounds;
+
             heckSquirrelStates.Add(State);
         }
 
@@ -32,11 +36,11 @@ namespace Assets.ai.hecksquirrel
                     new SelectorNode<HeckSquirrelState>(State,
                         new SafeInPen(transform, State),
                         new SequenceNode<HeckSquirrelState>(State,
-                            new FeelThreatened(transform, State, 1f),
+                            new FeelThreatened(transform, State, 1f, 1),
                             new FleeFromPlayer(transform, State, 1.75f)
                         ),
                         new SequenceNode<HeckSquirrelState>(State,
-                            new FeelThreatened(transform, State, 2.5f),
+                            new FeelThreatened(transform, State, 2.5f, 0),
                             new FleeFromPlayer(transform, State, 1.25f)
                         ),
                         new FeelSafe(transform, State)
@@ -60,6 +64,7 @@ namespace Assets.ai.hecksquirrel
             if(State.SafeInPen && !State.WarpedOut && !_warping)
             {
                 _warping = true;
+                AudioRequester.RequestedAudioClips.Enqueue(WarpOut);
                 _animator.SetBool("warpOut", true);
             }
         }

@@ -1,3 +1,4 @@
+using Assets.extensions;
 using Assets.state;
 using System;
 using System.Collections;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     AudioClip _pauseSFX;
     public void Start()
     {
+        SetVolumeToSettings();
         PauseMenuCanvas.SetActive(false);
         GameOverCanvas.SetActive(false);
         GameWin.Value = false;
@@ -87,7 +89,13 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    private void SetVolumeToSettings()
+    {
+        var musicVolume = PlayerPrefs.GetFloat(AudioRequester.MusicVolumeKey, 0.2f);
+        var sfxVolume = PlayerPrefs.GetFloat(AudioRequester.SFXVolumeKey, 0.4f);
+        MusicSource.volume = musicVolume;
+        SFXSource.volume = sfxVolume;
+    }
     public void Update()
     {
         if (_gameOver)
@@ -126,7 +134,7 @@ public class GameManager : MonoBehaviour
                 MusicSource.Stop();
                 MusicSource.loop = false;
                 MusicSource.PlayOneShot(MusicOutOfTimeTransition);
-                StartCoroutine(waitForSound(MusicSource, () =>
+                StartCoroutine(MusicSource.WaitForSound(() =>
                 {
                     MusicSource.loop = true;
                     MusicSource.PlayOneShot(MusicRunningOutOfTime);
@@ -231,13 +239,5 @@ public class GameManager : MonoBehaviour
         AudioRequester.RequestedAudioClips.Clear();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    IEnumerator waitForSound(AudioSource source, Action callback)
-    {
-        while (source.isPlaying)
-            yield return null;
-
-        callback();
     }
 }

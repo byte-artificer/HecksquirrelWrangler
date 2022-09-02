@@ -584,7 +584,8 @@ MonoBehaviour:
     CurrentSpeed: 0
     BaseSpeed: 0
     MoveVal: {x: 0, y: 0}
-    RequestPlayAudioClip: {fileID: 0}
+    AudioRequester: {fileID: 0}
+    CollideSound: {fileID: 0}
     MaxStamina: 5
     Stamina: 5
     Sprinting: 0
@@ -907,7 +908,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1627627279
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!224 &620404530
 RectTransform:
@@ -2042,7 +2043,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1627627279
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &966620360
 RectTransform:
@@ -2163,7 +2164,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1627627279
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!224 &1136797096
 RectTransform:
@@ -2342,7 +2343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1256828827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2402,7 +2403,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1627627279
-  m_SortingOrder: 10
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!224 &1256828830
 RectTransform:
@@ -3420,7 +3421,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1627627279
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!224 &1462320780
 RectTransform:
@@ -3468,7 +3469,8 @@ MonoBehaviour:
     CurrentSpeed: 0
     BaseSpeed: 1
     MoveVal: {x: 0, y: 0}
-    RequestPlayAudioClip: {fileID: 0}
+    AudioRequester: {fileID: 0}
+    CollideSound: {fileID: 0}
     MaxStamina: 5
     Stamina: 5
     Sprinting: 0
@@ -3476,6 +3478,8 @@ MonoBehaviour:
     PlayerStamina: {fileID: 0}
     HeckSquirrelStates: {fileID: 0}
     WinLevel: 0
+  Collide: {fileID: 8300000, guid: 4e0b179aee8b37c44878f1e50006a19b, type: 3}
+  AudioRequester: {fileID: 11400000, guid: 6b90cb04ddbc29646b1b19e9ac0e2b0c, type: 2}
   GamePaused: {fileID: 11400000, guid: 802f086a7cbf33042a492a864bbea36b, type: 2}
   HeckSquirrelStates: {fileID: 11400000, guid: 47e767b3e9705364a9a3c4e7c89802d3, type: 2}
   PlayerStamina: {fileID: 11400000, guid: 5d61eb980c3307440a8736ccc2b5174d, type: 2}
@@ -3572,8 +3576,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5434,8 +5438,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5470,7 +5474,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: -47.8583}
+  m_margin: {x: 0, y: 47.908875, z: 0, w: -47.8583}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6285,8 +6289,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6842,6 +6846,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5366316927782667205, guid: b999f158cd7951d4886a2e55440c1e40, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5366316928386739920, guid: b999f158cd7951d4886a2e55440c1e40, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

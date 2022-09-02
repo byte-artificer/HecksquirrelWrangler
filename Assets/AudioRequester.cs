@@ -7,6 +7,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Audio Clip Requester")]
 public class AudioRequester : ScriptableObject
 {
+
+    public static string MusicVolumeKey = "musicVolume";
+    public static string SFXVolumeKey = "sfxVolume";
+
     public ConcurrentQueue<AudioClip> RequestedAudioClips = new ConcurrentQueue<AudioClip>();
 
     private void OnEnable()

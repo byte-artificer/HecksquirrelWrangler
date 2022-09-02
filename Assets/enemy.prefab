@@ -182,6 +182,8 @@ MonoBehaviour:
     CurrentSpeed: 0
     BaseSpeed: 1
     MoveVal: {x: 0, y: 0}
+    AudioRequester: {fileID: 0}
+    CollideSound: {fileID: 0}
     Player: {fileID: 0}
     DebugTarget: {fileID: 0}
     Pen: {fileID: 0}
@@ -191,7 +193,14 @@ MonoBehaviour:
     WarpedOut: 0
     PlayerWin: {fileID: 0}
     LastRetargetTime: 0
+    ScaredSounds: []
+  Collide: {fileID: 8300000, guid: 664c33d73d5f51e44a4f77bd183afcfe, type: 3}
+  AudioRequester: {fileID: 11400000, guid: 6b90cb04ddbc29646b1b19e9ac0e2b0c, type: 2}
   GamePaused: {fileID: 11400000, guid: 802f086a7cbf33042a492a864bbea36b, type: 2}
   squirreltarget: {fileID: 4593321257872818685, guid: 880e8b30b75f49e4aa1e071f11809eeb, type: 3}
   heckSquirrelStates: {fileID: 11400000, guid: 47e767b3e9705364a9a3c4e7c89802d3, type: 2}
   PlayerWin: {fileID: 11400000, guid: aabc7adf919d937489d989b2210c0bcd, type: 2}
+  ScaredSounds:
+  - {fileID: 8300000, guid: 8a01dbb523964714f991038117e3ffc5, type: 3}
+  - {fileID: 8300000, guid: 6f76bfbf3f91d464cb0088fd07f0b38e, type: 3}
+  WarpOut: {fileID: 8300000, guid: fcc30fe6d5b69bb43affa37ca401f939, type: 3}

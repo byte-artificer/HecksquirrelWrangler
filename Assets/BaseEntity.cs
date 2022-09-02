@@ -15,6 +15,8 @@ public abstract class BaseEntity<T> : BehaviorTree<T> where T:BaseEntityState
     protected Animator _animator;
     SpriteRenderer spriteRenderer;
     const string IgnoreCollisionTag = "_Ignore";
+    public AudioClip Collide;
+    public AudioRequester AudioRequester;
 
     public BoolValue GamePaused;
 
@@ -24,6 +26,8 @@ public abstract class BaseEntity<T> : BehaviorTree<T> where T:BaseEntityState
         State.Reset();
         _animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        State.CollideSound = Collide;
+        State.AudioRequester = AudioRequester;
 
         try
         {
@@ -71,6 +75,7 @@ public abstract class BaseEntity<T> : BehaviorTree<T> where T:BaseEntityState
     protected virtual void OnCollisionEnter2D(Collision2D col)
     {
         State.ActiveCollision = col;
+        State.AudioRequester.RequestedAudioClips.Enqueue(State.CollideSound);
     }
 
 }

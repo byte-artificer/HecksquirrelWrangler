@@ -28,6 +28,8 @@ namespace Assets.state
         public BoolValue PlayerWin;
         [HideInInspector]
         public float LastRetargetTime = float.MaxValue;
+        [HideInInspector]
+        public AudioClip[] ScaredSounds;
 
         public override void Reset()
         {
