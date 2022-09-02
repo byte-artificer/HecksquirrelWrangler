@@ -31,8 +31,8 @@ public class MainMenuController : MonoBehaviour
     {
         SetVolumeToSettings();
 
-        MainCanvas.SetActive(true);
         OptionsCanvas.SetActive(false);
+        MainCanvas.SetActive(true);
 
     }
 
