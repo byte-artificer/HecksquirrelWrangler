@@ -2,18 +2,19 @@ Try it here! [Hecksquirrel Wrangler](https://byte-artificer.github.io/Hecksquirr
 
 Uses assets from:
 
-sprites:
+sprites:  
 https://greebles.itch.io/discount-dungeon
 
-fonts:
+fonts:  
 https://somepx.itch.io/humble-fonts-gold
 
-magic circle and squirrel warp out effect:
+magic circle sprite and squirrel warp out animation:  
 https://iknowkingrabbit.itch.io/has-magic-book
 
-music:
+music:  
 https://beepartz.itch.io/run-n-jump-music-pack
 
-sfx:
-https://outspacer.itch.io/platformer-sfx
+sfx:  
+https://outspacer.itch.io/platformer-sfx  
+https://archizer.itch.io/151-retro-monsters-sfx-pack
 
