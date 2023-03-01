@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+
+            IntroHelpCanvas.SetActive(false);
             MusicSource.Stop();
             MusicSource.PlayOneShot(MusicNormal);
 
@@ -149,11 +151,14 @@ public class GameManager : MonoBehaviour
     void PlaySounds()
     {
         int count = 0;
+        AudioClip lastPlayed = null;
         while (count < 10 && !AudioRequester.RequestedAudioClips.IsEmpty)
         {
             if (AudioRequester.RequestedAudioClips.TryDequeue(out AudioClip requested))
             {
-                SFXSource.PlayOneShot(requested);
+                if(lastPlayed != requested)
+                    SFXSource.PlayOneShot(requested);
+                lastPlayed = requested;
                 count++;
             }
             else
